@@ -1,0 +1,26 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/cocktalesapi
+    machine:
+      image: circleci/classic:201711-01
+    steps:
+      - checkout
+      - run:
+          name: Build Release Image
+          command: |
+            docker-compose -f docker-compose.yml up -d --build
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
+              docker tag "${DOCKER_IMAGE}:latest" "${DOCKER_HUB_REPOSITORY}/${DOCKER_IMAGE}_staging:latest"
+              docker push "${DOCKER_HUB_REPOSITORY}/${DOCKER_IMAGE}_staging:latest"
+            fi
+
+      - deploy:
+          name: Deploy to Staging/Production
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              scp docker-compose.staging.yml root@${STAGING_SERVER}:~/api-staging
+              ssh root@${STAGING_SERVER} "docker-compose -f ./api-staging/docker-compose.staging.yml pull web \
+              && docker-compose -f ./api-staging/docker-compose.staging.yml up -d"
+            fi
