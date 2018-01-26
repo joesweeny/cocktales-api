@@ -11,8 +11,7 @@ jobs:
           command: |
             docker-compose -f docker-compose.yml up -d --build
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              scp docker-compose.yml root@${STAGING_SERVER}:~/api-staging
-              scp openapi.yml root@${STAGING_SERVER}:~/api-staging
+              scp docker-compose.yml openapi.yml root@${STAGING_SERVER}:~/api-staging
               ssh root@${STAGING_SERVER} "docker-compose -f ./api-staging/docker-compose.staging.yml up -d --build"
             fi
 
