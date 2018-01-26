@@ -9,7 +9,7 @@ jobs:
       - run:
           name: Build Release Image
           command: |
-            docker-compose -f docker-compose.yml -d --build
+            docker-compose -f docker-compose.yml up -d --build
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
               docker tag "${DOCKER_IMAGE}:latest" "${DOCKER_HUB_REPOSITORY}/${DOCKER_IMAGE}_staging:latest"
