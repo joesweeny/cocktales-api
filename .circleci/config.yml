@@ -15,6 +15,6 @@ jobs:
               docker tag "${DOCKER_IMAGE}:latest" "${DOCKER_HUB_REPOSITORY}/${DOCKER_IMAGE}:latest"
               docker push "${DOCKER_HUB_REPOSITORY}/${DOCKER_IMAGE}:latest"
               scp docker-compose.staging.yml root@${STAGING_SERVER}:~/api-staging
-              ssh root@${STAGING_SERVER} "docker-compose -f ./staging/docker-compose.staging.yml pull web && \
+              ssh root@${STAGING_SERVER} "docker-compose -f ./api-staging/docker-compose.staging.yml pull web && \
               docker-compose -f ~/api-staging/docker-compose.staging.yml up -d --build"
             fi
