@@ -1,9 +1,9 @@
 version: '2'
 services:
 
-  web:
+  api:
     image: swaggerapi/swagger-ui
     volumes:
       - ./openapi.yaml:/app/swagger.json
     ports:
-      - "80"
+      - "8001:80"
