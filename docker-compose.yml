@@ -6,4 +6,4 @@ services:
     volumes:
       - ./openapi.yaml:/app/swagger.json
     ports:
-      - "8001:80"
+      - "8001:8080"
