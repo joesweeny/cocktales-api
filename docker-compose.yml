@@ -2,8 +2,8 @@ version: '2'
 services:
 
   web:
-    image: swaggerapi/swagger-ui
-    volumes:
-      - ./openapi.yaml:/app/swagger.json
+    build:
+      dockerfile: ./Dockerfile
+      context: ./
     ports:
       - "8001:8080"

@@ -11,7 +11,10 @@ jobs:
           command: |
             docker-compose -f docker-compose.yml up -d --build
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              scp docker-compose.yml openapi.yaml root@${STAGING_SERVER}:~/api-staging
-              ssh root@${STAGING_SERVER} "docker-compose -f ~/api-staging/docker-compose.yml up -d --build"
+              docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
+              docker tag "${DOCKER_IMAGE}:latest" "${DOCKER_HUB_REPOSITORY}/${DOCKER_IMAGE}:latest"
+              docker push "${DOCKER_HUB_REPOSITORY}/${DOCKER_IMAGE}:latest"
+              scp docker-compose.staging.yml root@${STAGING_SERVER}:~/api-staging
+              ssh root@${STAGING_SERVER} "docker-compose -f ./staging/docker-compose.staging.yml pull web && \
+              docker-compose -f ~/api-staging/docker-compose.staging.yml up -d --build"
             fi
-

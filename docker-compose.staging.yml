@@ -2,6 +2,6 @@ version: '2'
 services:
 
   web:
-    image: joesweeny/cocktalesapi_web_staging:latest
+    image: joesweeny/cocktalesapi_web:latest
     ports:
-      - "8001:80"
+      - "8001:8080"
