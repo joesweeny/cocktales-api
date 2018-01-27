@@ -13,7 +13,6 @@ servers:
     description: Staging environment
 security:
   - AuthorizationToken: []
-  - AuthenticationToken: []
 
 paths:
   /api/v1/user/register:
